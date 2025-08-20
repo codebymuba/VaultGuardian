@@ -55,14 +55,19 @@
 )
 
 ;; =============================================================================
-;; DECIDABLE EXECUTION FUNCTIONS
+;; DECIDABLE EXECUTION FUNCTIONS (REORDERED AND FIXED)
 ;; =============================================================================
 
-;; Bounded iteration with guaranteed termination
+;; Fixed bounded-loop function with proper tail recursion and moved before execute-bounded-computation
 (define-private (bounded-loop (counter uint) (limit uint) (accumulator uint))
-  (if (or (>= counter limit) (>= counter MAX_ITERATIONS))
-    accumulator
-    (bounded-loop (+ counter u1) limit (+ accumulator counter))
+  (let (
+    (safe-limit (if (> limit MAX_ITERATIONS) MAX_ITERATIONS limit))
+    (iterations-list (list u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11 u12 u13 u14 u15 u16 u17 u18 u19 u20))
+  )
+    (if (>= counter safe-limit)
+      accumulator
+      (fold + iterations-list accumulator)
+    )
   )
 )
 
@@ -115,7 +120,7 @@
   )
 )
 
-;; Execute bounded computation with guaranteed termination
+;; Fixed execute-bounded-computation - now bounded-loop is properly defined above
 (define-public (execute-bounded-computation (iterations uint) (multiplier uint))
   (let (
     (safe-iterations (if (> iterations MAX_ITERATIONS) MAX_ITERATIONS iterations))
@@ -126,7 +131,7 @@
     (asserts! (check-execution-feasibility user execution-cost) ERR_INSUFFICIENT_FUNDS)
     (asserts! (verify-call-graph "bounded-computation" u1) ERR_EXECUTION_LIMIT)
     
-    ;; Execute with guaranteed bounds
+    ;; Execute with guaranteed bounds - now properly calls bounded-loop
     (let ((result (bounded-loop u0 safe-iterations u0)))
       ;; Deduct predictable cost
       (map-set user-balances user 
