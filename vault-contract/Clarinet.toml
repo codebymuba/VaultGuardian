@@ -4,6 +4,14 @@ authors = []
 description = ""
 telemetry = true
 requirements = []
+[contracts.RBAC]
+path = "contracts/RBAC.clar"
+depends_on = []
+
+[contracts.permissionframework]
+path = "contracts/permissionframework.clar"
+depends_on = []
+
 [contracts.security-first]
 path = "contracts/security-first.clar"
 depends_on = []
