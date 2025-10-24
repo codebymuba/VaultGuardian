@@ -8,6 +8,10 @@ requirements = []
 path = "contracts/RBAC.clar"
 depends_on = []
 
+[contracts.permission-manager]
+path = "contracts/permission-manager.clar"
+depends_on = []
+
 [contracts.permissionframework]
 path = "contracts/permissionframework.clar"
 depends_on = []
